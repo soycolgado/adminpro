@@ -15,6 +15,7 @@ import { GraficoDonaComponent } from '../components/grafico-dona/grafico-dona.co
 
 
 import { PagesRoutingModule } from './pages.routes';
+import { AccountSettingsComponent } from './account-settings/account-settings.component';
 
 
 @NgModule({
@@ -24,7 +25,8 @@ import { PagesRoutingModule } from './pages.routes';
         ProgressComponent,
         PagesComponent,
         IncrementadorComponent,
-        GraficoDonaComponent
+        GraficoDonaComponent,
+        AccountSettingsComponent
     ],
     imports: [
         SharedModule,
