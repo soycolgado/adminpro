@@ -1,46 +1,51 @@
-import { Component, OnInit } from '@angular/core';
-import { Observable, Subscriber } from 'rxjs';
-import { retry } from 'rxjs/operators';
-
+import { Component, OnInit } from "@angular/core";
+import { Observable, Subscriber } from "rxjs";
+import { retry, map } from "rxjs/operators";
 
 @Component({
-  selector: 'app-rxjs',
-  templateUrl: './rxjs.component.html',
-  styles: []
+  selector: "app-rxjs",
+  templateUrl: "./rxjs.component.html",
+  styles: [],
 })
 export class RxjsComponent implements OnInit {
+  constructor() {
+    this.regresarObservable().subscribe(
+      (numero) => {
+        console.log('Subs: ', numero);
+      },
+      (error) => {
+        console.log(error);
+      },
+      () => {
+        console.log('Completado!!!!');
+      }
+    );
+  }
+  ngOnInit() {}
 
-  constructor() { 
-    let obs = new Observable(observer => {
+  regresarObservable(): Observable<any> {
+    return new Observable((observer) => {
       let contador = 0;
-
-     let interval = setInterval( ()=> {
+      let intervalo = setInterval(() => {
         contador++;
-        observer.next(contador);
-        if(contador === 3){
-          clearInterval(interval);
+        const salida = {
+          valor: contador
+        }
+        observer.next(salida);
+        
+
+        if (contador === 3) {
+          clearInterval(intervalo); 
           observer.complete();
         }
 
-        if(contador === 2){
-          observer.error('Auxilio!!!');
-        }
+        // if (contador === 2) {
+        //   observer.error('Auxilio');
+        // }
 
-    },1000);
-
-    });
-
-    obs.subscribe(numero=>{
-      console.log('Subs: ',numero);
-    },error => {
-      console.log(error);
-    },()=>{
-      console.log('Completado!!!!');
-    });
-
+      }, 1000);
+    }).pipe(map((resp: any) => {
+      return resp.valor;
+    }));
   }
-  ngOnInit() {
-  }
-
-
 }
