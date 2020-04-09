@@ -1,15 +1,18 @@
-import { Component, OnInit } from "@angular/core";
-import { Observable, Subscriber } from "rxjs";
-import { retry, map } from "rxjs/operators";
+import { Component, OnInit, OnDestroy } from "@angular/core";
+import { Observable, Subscriber, Subscription } from "rxjs";
+import { retry, map, filter } from "rxjs/operators";
 
 @Component({
   selector: "app-rxjs",
   templateUrl: "./rxjs.component.html",
   styles: [],
 })
-export class RxjsComponent implements OnInit {
+export class RxjsComponent implements OnInit, OnDestroy {
+
+  subscription: Subscription;
+
   constructor() {
-    this.regresarObservable().subscribe(
+     this.subscription = this.regresarObservable().subscribe(
       (numero) => {
         console.log('Subs: ', numero);
       },
@@ -23,6 +26,10 @@ export class RxjsComponent implements OnInit {
   }
   ngOnInit() {}
 
+  ngOnDestroy(){
+    this.subscription.unsubscribe();
+  }
+
   regresarObservable(): Observable<any> {
     return new Observable((observer) => {
       let contador = 0;
@@ -34,10 +41,10 @@ export class RxjsComponent implements OnInit {
         observer.next(salida);
         
 
-        if (contador === 3) {
-          clearInterval(intervalo); 
-          observer.complete();
-        }
+        // if (contador === 3) {
+        //   clearInterval(intervalo); 
+        //   observer.complete();
+        // }
 
         // if (contador === 2) {
         //   observer.error('Auxilio');
@@ -46,6 +53,13 @@ export class RxjsComponent implements OnInit {
       }, 1000);
     }).pipe(map((resp: any) => {
       return resp.valor;
+    }),
+    filter((valor, index)=>{
+      if((valor % 2) === 1){
+        return true;
+      }else{
+        return false;
+      }
     }));
   }
 }
