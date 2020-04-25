@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule} from '@angular/forms';
 import { ChartsModule } from 'ng2-charts';
 import { SharedModule } from '../shared/shared.module';
 
@@ -18,6 +18,7 @@ import { PagesRoutingModule } from './pages.routes';
 import { AccountSettingsComponent } from './account-settings/account-settings.component';
 import { PromesasComponent } from './promesas/promesas.component';
 import { RxjsComponent } from './rxjs/rxjs.component';
+import { LoginGuardGuard } from '../services/guards/login-guard.guard';
 
 
 @NgModule({
@@ -36,7 +37,8 @@ import { RxjsComponent } from './rxjs/rxjs.component';
         SharedModule,
         PagesRoutingModule,
         FormsModule,
-        ChartsModule
+        ChartsModule,
+
     ],
     exports: [
         DashboardComponent,
